@@ -1,10 +1,10 @@
-#import allure
+import allure
 import pytest
 import requests
 
 
 class TestOrderCreation:
-    #@allure.title("Проверка выбора цвета")
+    @allure.title("Проверка выбора цвета")
     @pytest.mark.parametrize("color", [
         ["BLACK", "GREY"],
         ["BLACK", ""],

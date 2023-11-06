@@ -1,3 +1,4 @@
+import allure
 import requests
 
 from courier_genarate import delete_courier_by_log_pass
@@ -6,19 +7,15 @@ from courier_genarate import generate_random_string
 from courier_genarate import register_new_courier_and_return_login_password
 
 
-# import allure
-
-
-# @allure.title("Тесты метода создания курьера")
 class TestCourierCreate:
-    # @allure.title("Проверка успешного создание курьера")
+    @allure.title("Проверка успешного создание курьера")
     def test_create_courier_success(self):
         login_pass = register_new_courier_and_return_login_password()
 
         assert login_pass, "Курьер не создан, код статус отличается от 201"
         delete_courier_by_log_pass(login_pass[0], login_pass[1])
 
-    # @allure.title("Проверка дубликата данных")
+    @allure.title("Проверка дубликата данных")
     def test_courier_duplicate_prevention(self):
         login_pass = register_new_courier_and_return_login_password()
 
@@ -32,7 +29,7 @@ class TestCourierCreate:
         assert response.status_code == 409, "Ошибка дубликата не получена (409)"
         delete_courier_by_log_pass(login_pass[0], login_pass[1])
 
-    # @allure.title("Проверка создания с неполным набором обязательных полей")
+    @allure.title("Проверка создания с неполным набором обязательных полей")
     def test_error_response_for_missing_fields(self):
         payload = {
             "login": "blabla",
@@ -42,7 +39,7 @@ class TestCourierCreate:
 
         assert response.status_code == 400
 
-    # @allure.title("Проверка корректного код статуса при успешном создании")
+    @allure.title("Проверка корректного код статуса при успешном создании")
     def test_response_code_for_courier_creation(self):
         payload = generate_json_body_new_courier()
 
@@ -51,7 +48,7 @@ class TestCourierCreate:
         assert response.status_code == 201
         delete_courier_by_log_pass(payload["login"], payload["password"])
 
-    # @allure.title("Проверка корректного тела ответа в создании курьера")
+    @allure.title("Проверка корректного тела ответа в создании курьера")
     def test_successful_courier_creation_response(self):
         payload = generate_json_body_new_courier()
 
@@ -62,7 +59,7 @@ class TestCourierCreate:
         assert response.json() == expect_response
         delete_courier_by_log_pass(payload["login"], payload["password"])
 
-    # @allure.title("Проверка создания без необязательных полей")
+    @allure.title("Проверка создания без необязательных полей")
     def test_required_fields_for_courier_creation(self):
         login = generate_random_string(10)
         password = generate_random_string(10)
@@ -77,7 +74,7 @@ class TestCourierCreate:
         assert response.status_code == 201
         delete_courier_by_log_pass(login, password)
 
-    # @allure.title("Проверка создания курьера с существующим логином")
+    @allure.title("Проверка создания курьера с существующим логином")
     def test_error_response_for_duplicate_courier(self):
         resp = register_new_courier_and_return_login_password()
         login = resp[0]
