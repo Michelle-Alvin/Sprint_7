@@ -14,6 +14,7 @@ class TestCourierLogin:
         response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
 
         assert response.status_code == 200
+        assert response.json()["id"] is not None
 
     #@allure.title("Проверка необходимости обязательных полей для авторизации")
     def test_auth_requires_all_required_fields(self):
@@ -24,6 +25,7 @@ class TestCourierLogin:
         response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
 
         assert response.status_code == 400
+        assert response.json()["message"] == "Недостаточно данных для входа"
 
     #@allure.title("Проверка возвращаемой ошибки при неправильном пароле")
     def test_auth_with_incorrect_password_error(self):
@@ -35,6 +37,7 @@ class TestCourierLogin:
         response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
 
         assert response.status_code == 404
+        assert response.json()["message"] == "Учетная запись не найдена"
 
     #@allure.title("Проверка получения ошибки при пустом обязательном поле")
     def test_auth_with_missing_fields_error(self):
@@ -70,4 +73,4 @@ class TestCourierLogin:
 
         response = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
 
-        assert response.json()['id'], 'Поля "id" нет в ответе'
+        assert response.json()['id'] is not None, 'Поля "id" нет в ответе'

@@ -29,7 +29,7 @@ def login_courier(login, password):
         "login": login,
         "password": password
     }
-    r = requests.post("'https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
+    r = requests.post("https://qa-scooter.praktikum-services.ru/api/v1/courier/login", data=payload)
 
     return r.json()["id"]
 
@@ -50,5 +50,4 @@ def register_new_courier_and_return_login_password():
         login_pass.append(payload['password'])
         login_pass.append(payload['firstName'])
 
-    yield login_pass
-    delete_courier_by_log_pass(payload['login'], payload['password'])
+    return login_pass
